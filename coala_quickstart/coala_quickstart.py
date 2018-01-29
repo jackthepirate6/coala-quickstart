@@ -2,6 +2,8 @@ import argparse
 import logging
 import os
 import sys
+import signal
+import time
 
 from pyprint.ConsolePrinter import ConsolePrinter
 
@@ -57,9 +59,16 @@ coala-quickstart automatically creates a .coafile for use by coala.
     return arg_parser
 
 
+
+def signal_handler(signal, frame):
+    sys.exit(0)
+
+
 def main():
     arg_parser = _get_arg_parser()
     args = arg_parser.parse_args()
+    signal.signal(signal.SIGINT, signal_handler)
+
 
     logging.basicConfig(stream=sys.stdout)
     printer = ConsolePrinter()
